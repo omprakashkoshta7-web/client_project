@@ -1,0 +1,139 @@
+{
+  "production": {
+    "services": {
+      "gateway": {
+        "url": "https://gateway-202671058278.asia-south1.run.app",
+        "description": "Main API Gateway",
+        "endpoints": {
+          "health": "/health",
+          "docs": "/api-docs"
+        }
+      },
+      "auth": {
+        "url": "https://auth-202671058278.asia-south1.run.app",
+        "description": "Authentication Service",
+        "endpoints": {
+          "docs": "/api-docs/",
+          "login": "/api/auth/login",
+          "register": "/api/auth/register",
+          "verify": "/api/auth/verify",
+          "profile": "/api/auth/profile"
+        },
+        "features": [
+          "User registration and login",
+          "JWT token management",
+          "Phone verification (OTP)",
+          "Password reset",
+          "User profile management",
+          "Role-based access control"
+        ]
+      },
+      "product": {
+        "url": "https://product-202671058278.asia-south1.run.app",
+        "description": "Product Catalog Service",
+        "endpoints": {
+          "docs": "/api-docs",
+          "products": "/api/products",
+          "categories": "/api/categories",
+          "search": "/api/products/search"
+        },
+        "features": [
+          "Product listings (shopping, gifting, printing)",
+          "Product details and specifications",
+          "Categories and subcategories",
+          "Product variants and pricing",
+          "Stock management",
+          "Product search and filtering"
+        ]
+      },
+      "admin": {
+        "url": "https://admin-202671058278.asia-south1.run.app",
+        "description": "Admin Management Service",
+        "endpoints": {
+          "docs": "/api-docs",
+          "orders": "/api/admin/orders",
+          "customers": "/api/admin/customers",
+          "vendors": "/api/admin/vendors",
+          "staff": "/api/admin/staff"
+        },
+        "features": [
+          "Order management and tracking",
+          "Customer management",
+          "Vendor and store management",
+          "Staff management with permissions",
+          "Financial reports and analytics",
+          "Support ticket management"
+        ]
+      },
+      "finance": {
+        "url": "https://finance-202671058278.asia-south1.run.app",
+        "description": "Financial Operations Service",
+        "endpoints": {
+          "docs": "/api-docs",
+          "payments": "/api/finance/payments",
+          "wallet": "/api/finance/wallet",
+          "transactions": "/api/finance/transactions",
+          "reports": "/api/finance/reports"
+        },
+        "features": [
+          "Payment processing",
+          "Transaction history",
+          "Wallet management",
+          "Refund processing",
+          "Financial reports",
+          "Revenue analytics",
+          "Commission calculations"
+        ]
+      },
+      "design": {
+        "url": "https://design-202671058278.asia-south1.run.app",
+        "description": "Design and Customization Service",
+        "endpoints": {
+          "docs": "/api-docs",
+          "templates": "/api/design/templates",
+          "canvas": "/api/design/canvas",
+          "assets": "/api/design/assets",
+          "render": "/api/design/render"
+        },
+        "features": [
+          "Design templates",
+          "Canvas configurations",
+          "Design assets and frames",
+          "Custom design storage",
+          "Design rendering",
+          "Print-ready file generation"
+        ]
+      },
+      "notification": {
+        "url": "https://notification-202671058278.asia-south1.run.app",
+        "description": "Communication and Notification Service",
+        "endpoints": {
+          "docs": "/api-docs",
+          "sms": "/api/notifications/sms",
+          "email": "/api/notifications/email",
+          "push": "/api/notifications/push"
+        },
+        "features": [
+          "SMS notifications",
+          "Email notifications",
+          "Push notifications",
+          "Notification templates",
+          "Delivery status updates",
+          "Marketing communications"
+        ]
+      }
+    },
+    "deployment": {
+      "platform": "Google Cloud Run",
+      "region": "asia-south1",
+      "project_id": "202671058278",
+      "timestamp": "2024-12-28T14:51:00Z"
+    },
+    "integration": {
+      "primary_gateway": "https://gateway-202671058278.asia-south1.run.app",
+      "authentication_required": true,
+      "cors_enabled": true,
+      "rate_limiting": true
+    }
+  }
+}
