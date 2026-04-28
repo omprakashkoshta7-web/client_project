@@ -72,7 +72,7 @@ const defaultPages = (): EditorPage[] => [
 const DesignEditorPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { isAuthenticated, openLoginModal } = useAuth();
+  const { isAuthenticated } = useAuth();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
@@ -878,9 +878,9 @@ const DesignEditorPage: React.FC = () => {
   const addToCartWithDesign = async () => {
     // Check if user is logged in
     if (!isAuthenticated) {
-      alert('Please login to add items to cart');
-      if (openLoginModal) {
-        openLoginModal();
+      const shouldLogin = window.confirm('Please login to add items to cart. Click OK to go to login page.');
+      if (shouldLogin) {
+        navigate('/login', { state: { from: window.location.pathname + window.location.search } });
       }
       return;
     }
@@ -888,6 +888,7 @@ const DesignEditorPage: React.FC = () => {
     if (!canvas || !product) {
       console.error('[addToCartWithDesign] Missing canvas or product');
       setError('Cannot add to cart: Missing canvas or product data');
+      alert('Cannot add to cart: Missing canvas or product data');
       return;
     }
 

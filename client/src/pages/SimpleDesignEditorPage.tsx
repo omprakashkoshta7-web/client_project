@@ -4,6 +4,7 @@ import * as fabric from 'fabric';
 import { ArrowLeft, Download, Plus, Trash2, Type, Upload } from 'lucide-react';
 import productService from '../services/product.service';
 import orderService from '../services/order.service';
+import { useAuth } from '../context/AuthContext';
 
 interface Product {
   _id: string;
@@ -18,6 +19,7 @@ interface Product {
 const SimpleDesignEditorPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { isAuthenticated } = useAuth();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -168,11 +170,33 @@ const SimpleDesignEditorPage: React.FC = () => {
 
   // Add to cart
   const addToCart = async () => {
-    if (!canvas || !product) return;
+    // Check if user is logged in
+    if (!isAuthenticated) {
+      const shouldLogin = window.confirm('Please login to add items to cart. Click OK to go to login page.');
+      if (shouldLogin) {
+        navigate('/login', { state: { from: window.location.pathname + window.location.search } });
+      }
+      return;
+    }
+
+    if (!canvas || !product) {
+      console.error('[addToCart] Missing canvas or product');
+      setError('Cannot add to cart: Missing canvas or product data');
+      alert('Cannot add to cart: Missing canvas or product data');
+      return;
+    }
 
     try {
+      console.log('[addToCart] Generating preview...');
       const designPreview = canvas.toDataURL({ format: 'png', multiplier: 1 });
       const designJson = JSON.stringify(canvas.toJSON());
+
+      console.log('[addToCart] Adding to cart with data:', {
+        productId: product._id,
+        productName: product.name,
+        flowType: 'gifting',
+        quantity,
+      });
 
       await orderService.addToCart({
         productId: product._id,
@@ -188,10 +212,14 @@ const SimpleDesignEditorPage: React.FC = () => {
         designName: `${product.name} - Custom Design`,
       });
 
+      console.log('[addToCart] Successfully added to cart');
+      alert('Design added to cart successfully!');
       navigate('/cart');
     } catch (err: any) {
-      console.error('Error adding to cart:', err);
-      setError(err?.message || 'Failed to add to cart');
+      console.error('[addToCart] Error:', err);
+      const errorMessage = err?.message || 'Failed to add to cart';
+      setError(errorMessage);
+      alert(`Error: ${errorMessage}`);
     }
   };
 
